@@ -31,12 +31,15 @@ public class Main {
 		System.out.println("OUTPUT #4: " + getCostOutput(graph, "B-D-F-E"));
 		System.out.println("OUTPUT #5: " + getCostOutput(graph, "F-C"));
 		System.out.println("OUTPUT #6: " + numberOfEdgesArriving(graph, "C"));
-		System.out.println("OUTPUT #7: " + numberOfRoutesByStops(graph, "B", "A", 5));
+		System.out.println("OUTPUT #7: " + numberOfRoutesLessThanStops(graph, "B", "A", 5));
 		//TODO 8 (implementar)
+		System.out.println("OUTPUT #8: " + numberOfCircleRoutesByStops(graph, "A", 3));
 		System.out.println("OUTPUT #9: " + costOfShortestRoute(graph, "A", "E"));
 		System.out.println("OUTPUT #10: " + costOfShortestRoute(graph, "C", "E"));
-		//TODO 11 (implementar)
-		//TODO 12 (implementar) 
+		//TODO 11
+		//TODO 12
+		System.out.println("OUTPUT #11: " + numberOfDifferentRoutesLessThan(graph, "A", "B", 40));
+		System.out.println("OUTPUT #12: " + numberOfDifferentRoutesLessThan(graph, "E", "D", 60));
 		
 	}
 	
@@ -70,21 +73,26 @@ public class Main {
 		return "NO SUCH ROUTE";
 	}
 	
-	private static Integer numberOfEdgesArriving(Graph graph, String node) {
-		List<Node> edges = graph.getNodes().stream().filter(n -> 
+	private static Long numberOfEdgesArriving(Graph graph, String node) {
+		return graph.getNodes().stream().filter(n -> 
 			n.getAdjacentNodes().keySet().stream().filter
 				(an -> an.getName().equals(node)).findFirst().orElse(null) != null
-		).collect(Collectors.toList());
-		
-		return edges.size();
+		).count();
 	}
 
-	private static Integer numberOfRoutesByStops(Graph graph, String startNode, String endNode, Integer stops) {
+	private static Long numberOfRoutesLessThanStops(Graph graph, String startNode, String endNode, Integer stops) {
 		Node start = graph.getNode(startNode);
 		Node end = graph.getNode(endNode);
 		
 		List<Path> paths = _graphService.getAllPaths(start, end);
-		return paths.stream().filter(p -> p.getNodes().size() <= (stops - 1)).collect(Collectors.toList()).size();
+		return paths.stream().filter(p -> p.getNodes().size() <= (stops - 1)).count();
+	}
+	
+	private static Long numberOfCircleRoutesByStops(Graph graph, String nodeString, Integer stops) {
+		Node node = graph.getNode(nodeString);
+		
+		List<Path> paths = _graphService.getAllPaths(node, node);
+		return paths.stream().filter(p -> p.getNodes().size() == stops - 1).count();
 	}
 	
 	private static Integer costOfShortestRoute(Graph graph, String startNode, String endNode) {
@@ -102,5 +110,14 @@ public class Main {
 		});
 		
 		return paths.get(0).getTotalDistance();
+	}
+	
+	private static Long numberOfDifferentRoutesLessThan(Graph graph, String startNode, String endNode, Integer maxValue) {
+		Node start = graph.getNode(startNode);
+		Node end = graph.getNode(endNode);
+
+		List<Path> paths = _graphService.getAllPaths(start, end);
+		
+		return paths.stream().filter(p -> p.getTotalDistance() < maxValue).count();		
 	}
 }
