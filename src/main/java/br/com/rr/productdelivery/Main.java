@@ -32,7 +32,6 @@ public class Main {
 		System.out.println("OUTPUT #5: " + getCostOutput(graph, "F-C"));
 		System.out.println("OUTPUT #6: " + numberOfEdgesArriving(graph, "C"));
 		System.out.println("OUTPUT #7: " + numberOfRoutesLessThanStops(graph, "B", "A", 5));
-		//TODO 8 (implementar)
 		System.out.println("OUTPUT #8: " + numberOfCircleRoutesByStops(graph, "A", 3));
 		System.out.println("OUTPUT #9: " + costOfShortestRoute(graph, "A", "E"));
 		System.out.println("OUTPUT #10: " + costOfShortestRoute(graph, "C", "E"));
@@ -85,14 +84,13 @@ public class Main {
 		Node end = graph.getNode(endNode);
 		
 		List<Path> paths = _graphService.getAllPaths(start, end);
-		return paths.stream().filter(p -> p.getNodes().size() <= (stops - 1)).count();
+		return paths.stream().filter(p -> p.getNodes().size() <= stops).count();
 	}
 	
 	private static Long numberOfCircleRoutesByStops(Graph graph, String nodeString, Integer stops) {
 		Node node = graph.getNode(nodeString);
-		
 		List<Path> paths = _graphService.getAllPaths(node, node);
-		return paths.stream().filter(p -> p.getNodes().size() == stops - 1).count();
+		return paths.stream().filter(p -> p.getNodes().size() == stops).count();
 	}
 	
 	private static Integer costOfShortestRoute(Graph graph, String startNode, String endNode) {

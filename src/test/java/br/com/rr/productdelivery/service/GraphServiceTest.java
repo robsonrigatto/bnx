@@ -51,6 +51,24 @@ public class GraphServiceTest {
 		Assert.assertEquals(4 + 7 + 5, (int) paths.get(2).getTotalDistance()); //A -> D -> F -> C
 		Assert.assertEquals(4 + 7 + 9 + 8, (int) paths.get(3).getTotalDistance()); //A -> D -> F -> E -> C
 	}
+	
+	@Test
+	public void aToATest() {
+		Assert.assertNotNull(this.service);
+		Graph graph = populatedGraph();
+		Node nA = graph.getNode("A");
+		List<Path> paths = this.service.getAllPaths(nA, nA);
+		
+		Assert.assertTrue(!paths.isEmpty());
+		Assert.assertEquals(6, (int) paths.size());
+
+		Assert.assertEquals(4 + 7 + 3, (int) paths.get(0).getTotalDistance()); //A -> D -> F -> A
+		Assert.assertEquals(9 + 2 + 6, (int) paths.get(1).getTotalDistance()); //A -> C -> B -> A
+		Assert.assertEquals(4 + 1 + 8 + 2 + 6, (int) paths.get(2).getTotalDistance()); //A -> D -> E -> C -> B -> A
+		Assert.assertEquals(9 + 2 + 3 + 7 + 3, (int) paths.get(3).getTotalDistance()); //A -> C -> B -> D -> F -> A
+		Assert.assertEquals(4 + 7 + 5 + 2 + 6, (int) paths.get(4).getTotalDistance()); //A -> D -> F -> C -> B -> A
+		Assert.assertEquals(4 + 7 + 9 + 8 + 2 + 6, (int) paths.get(5).getTotalDistance()); //A -> D -> F -> E -> C -> B -> A
+	}
 
 	private Graph populatedGraph() {
 		GraphBuilder builder = new GraphBuilder();

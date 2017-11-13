@@ -17,13 +17,20 @@ import br.com.rr.productdelivery.model.Path;
 public class GraphService {
 	
 	public List<Path> getAllPaths(Node startNode, Node endNode) {
-		Set<Node> blackList = new HashSet<>();
-		blackList.add(startNode);
-		List<Path> allPaths = this.getAllPaths(startNode, endNode, blackList);
+		List<Path> allPaths;
+		
+		if(startNode.equals(endNode)) {
+			allPaths = getCirclePaths(startNode, endNode);
+		} else {
+			Set<Node> blackList = new HashSet<>();
+			blackList.add(startNode);
+			allPaths = this.getAllPaths(startNode, endNode, blackList);
+		}
+		
 		Collections.sort(allPaths);
 		return allPaths;
 	}
-	
+
 	private List<Path> getAllPaths(Node startNode, Node endNode, Set<Node> blackList) {
 		List<Path> paths = new ArrayList<>();
 		if(startNode.equals(endNode)) {
@@ -55,8 +62,29 @@ public class GraphService {
 			}
 		}
 		
-		//paths = paths.stream().filter(p -> p.getNodes().contains(endNode)).collect(Collectors.toList());
 		return paths;
 	}
-
+	
+	private List<Path> getCirclePaths(Node startNode, Node endNode) {
+		List<Path> paths = new ArrayList<>();
+		Map<Node, Integer> adjacentNodes = startNode.getAdjacentNodes();
+		
+		for(Entry<Node, Integer> an : adjacentNodes.entrySet()) {
+			List<Path> subpaths = getAllPaths(an.getKey(), endNode);
+			
+			for(Path sp : subpaths) {
+				Path newSp = new Path(startNode);
+				List<Node> spNodes = sp.getNodes();
+				spNodes.add(0, sp.getStartNode());
+				
+				newSp.setTotalDistance(sp.getTotalDistance() + an.getValue());
+				newSp.setNodes(spNodes);
+				
+				paths.add(newSp);
+				
+			}
+		}
+		
+		return paths;
+	}
 }
