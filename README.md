@@ -1,6 +1,12 @@
 # Product delivery problem
 
-Dúvidas sobre os resultados:
+Para a execução do teste:
+
+- Executar a classe `Main` do pacote raiz
+    
+- A saída esperada será exibida no console
+    
+## Dúvidas sobre os resultados:
 
 7 - Seguindo a amostra de teste do enunciado, há uma inconsistência nos caminhos em comparação com o resultado obtido. 
 Isso ocorre pelo fato em que a rota está passando 2x no mesmo destino.
