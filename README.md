@@ -26,7 +26,7 @@ Resultado obtido:
     B -> D -> F -> A (3 stops)
     
     
- 11 e 12 - Pelo mesmo caso que ocorre no exercício 7
+ 11 e 12 - Provavelmente é o mesmo caso que ocorre no exercício 7 (2 ou mais vezes pelo mesma vértice)
  
  Enunciado:
  
