@@ -1,4 +1,4 @@
-package br.com.rr.productdelivery.factory;
+package br.com.rr.productdelivery.builder;
 
 import java.util.Set;
 

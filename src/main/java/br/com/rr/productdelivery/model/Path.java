@@ -3,7 +3,7 @@ package br.com.rr.productdelivery.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Path implements Comparable<Path> {
+public class Path {
 
 	private Node startNode;
 	private List<Node> nodes;
@@ -44,10 +44,5 @@ public class Path implements Comparable<Path> {
 		StringBuilder sb = new StringBuilder(this.startNode.toString());
 		nodes.forEach(node -> sb.append(" -> ").append(node));
 		return sb.toString();
-	}
-
-	@Override
-	public int compareTo(Path o) {
-		return this.totalDistance.compareTo(o.totalDistance);
 	}
 }

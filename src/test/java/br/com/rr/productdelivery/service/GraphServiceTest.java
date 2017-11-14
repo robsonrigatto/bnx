@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.rr.productdelivery.factory.GraphBuilder;
+import br.com.rr.productdelivery.builder.GraphBuilder;
 import br.com.rr.productdelivery.model.Graph;
 import br.com.rr.productdelivery.model.Node;
 import br.com.rr.productdelivery.model.Path;

@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import java.util.Set;
 
+import br.com.rr.productdelivery.comparator.SmallerCostComparator;
 import br.com.rr.productdelivery.model.Node;
 import br.com.rr.productdelivery.model.Path;
 
@@ -27,7 +28,7 @@ public class GraphService {
 			allPaths = this.getAllPaths(startNode, endNode, blackList);
 		}
 		
-		Collections.sort(allPaths);
+		Collections.sort(allPaths, new SmallerCostComparator());
 		return allPaths;
 	}
 

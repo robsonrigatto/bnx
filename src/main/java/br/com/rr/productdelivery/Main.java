@@ -1,10 +1,10 @@
 package br.com.rr.productdelivery;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.rr.productdelivery.factory.GraphBuilder;
+import br.com.rr.productdelivery.builder.GraphBuilder;
+import br.com.rr.productdelivery.comparator.ShortestPathComparator;
 import br.com.rr.productdelivery.model.Graph;
 import br.com.rr.productdelivery.model.Node;
 import br.com.rr.productdelivery.model.Path;
@@ -35,8 +35,6 @@ public class Main {
 		System.out.println("OUTPUT #8: " + numberOfCircleRoutesByStops(graph, "A", 3));
 		System.out.println("OUTPUT #9: " + costOfShortestRoute(graph, "A", "E"));
 		System.out.println("OUTPUT #10: " + costOfShortestRoute(graph, "C", "E"));
-		//TODO 11
-		//TODO 12
 		System.out.println("OUTPUT #11: " + numberOfDifferentRoutesLessThan(graph, "A", "B", 40));
 		System.out.println("OUTPUT #12: " + numberOfDifferentRoutesLessThan(graph, "E", "D", 60));
 		
@@ -98,15 +96,7 @@ public class Main {
 		Node end = graph.getNode(endNode);
 
 		List<Path> paths = _graphService.getAllPaths(start, end);
-		
-		paths.sort(new Comparator<Path>() {
-
-			@Override
-			public int compare(Path o1, Path o2) {
-				return Integer.valueOf(o1.getNodes().size()).compareTo(o2.getNodes().size());
-			}
-		});
-		
+		paths.sort(new ShortestPathComparator());
 		return paths.get(0).getTotalDistance();
 	}
 	
