@@ -22,13 +22,12 @@ public class GraphServiceTest {
 	
 	@Test
 	public void aToDTest() {
-		Assert.assertNotNull(this.service);
 		Graph graph = populatedGraph();
 		Node nA = graph.getNode("A");
 		Node nD = graph.getNode("D");
 		List<Path> paths = this.service.getAllPaths(nA, nD);
 		
-		Assert.assertTrue(!paths.isEmpty());
+		Assert.assertFalse(paths.isEmpty());
 		Assert.assertEquals(2, (int) paths.size());
 		
 		Assert.assertEquals(4, (int) paths.get(0).getTotalDistance()); //A -> D
@@ -37,13 +36,12 @@ public class GraphServiceTest {
 	
 	@Test
 	public void aToCTest() {
-		Assert.assertNotNull(this.service);
 		Graph graph = populatedGraph();
 		Node nA = graph.getNode("A");
 		Node nC = graph.getNode("C");
 		List<Path> paths = this.service.getAllPaths(nA, nC);
 		
-		Assert.assertTrue(!paths.isEmpty());
+		Assert.assertFalse(paths.isEmpty());
 		Assert.assertEquals(4, (int) paths.size());
 		
 		Assert.assertEquals(9, (int) paths.get(0).getTotalDistance()); //A -> C
@@ -54,12 +52,11 @@ public class GraphServiceTest {
 	
 	@Test
 	public void aToATest() {
-		Assert.assertNotNull(this.service);
 		Graph graph = populatedGraph();
 		Node nA = graph.getNode("A");
 		List<Path> paths = this.service.getAllPaths(nA, nA);
 		
-		Assert.assertTrue(!paths.isEmpty());
+		Assert.assertFalse(paths.isEmpty());
 		Assert.assertEquals(6, (int) paths.size());
 
 		Assert.assertEquals(4 + 7 + 3, (int) paths.get(0).getTotalDistance()); //A -> D -> F -> A
@@ -68,6 +65,20 @@ public class GraphServiceTest {
 		Assert.assertEquals(9 + 2 + 3 + 7 + 3, (int) paths.get(3).getTotalDistance()); //A -> C -> B -> D -> F -> A
 		Assert.assertEquals(4 + 7 + 5 + 2 + 6, (int) paths.get(4).getTotalDistance()); //A -> D -> F -> C -> B -> A
 		Assert.assertEquals(4 + 7 + 9 + 8 + 2 + 6, (int) paths.get(5).getTotalDistance()); //A -> D -> F -> E -> C -> B -> A
+	}
+	
+	@Test
+	public void nonePathTest() {
+		GraphBuilder builder = new GraphBuilder();
+		builder.addNode("AD4").addNode("DE1").addNode("EC8").addNode("CB2").addNode("BA6")
+		.addNode("AC9").addNode("DF7").addNode("BD3");
+		
+		Graph graph = builder.build();
+		Node nF = graph.getNode("F");
+		Node nA = graph.getNode("A");
+		List<Path> paths = this.service.getAllPaths(nF, nA);
+		Assert.assertTrue(paths.isEmpty());
+		
 	}
 
 	private Graph populatedGraph() {
